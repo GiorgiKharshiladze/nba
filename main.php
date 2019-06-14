@@ -1,3 +1,7 @@
+<?php 
+require 'config.php';
+$conn = OpenConnection();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,7 +16,9 @@
   </head>
   <body>
     
-	
+	<?php 
+	$result = $conn->query("SELECT * FROM mini ORDER BY date DESC");
+	?>
 	<table class="table">
 	  <thead class="thead-dark">
 	    <tr>
@@ -24,20 +30,17 @@
 	  </thead>
 	  <tbody>
 	  	<?php 
-
+	  	while($row = $result->fetch_assoc()) {
 	  	?>
 	    <tr>
-	      <th scope="row">1</th>
-	      <td>Mark</td>
-	      <td><button type="button" class="btn btn-success btn-sm btn-block">Block level button</button></td>
-	      <td>@mdo</td>
+	      <th scope="row"><?=$row['id'];?></th>
+	      <td><?=$row['title'];?></td>
+	      <td><a href="<?=$row['url'];?>" class="btn btn-warning btn-sm btn-block">WATCH</a></td>
+	      <td><?=$row['date'];?></td>
 	    </tr>
-	    <tr>
-	      <th scope="row">1</th>
-	      <td>Mark</td>
-	      <td><button type="button" class="btn btn-success btn-sm btn-block">Block level button</button></td>
-	      <td>@mdo</td>
-	    </tr>
+	    <?php 
+	    }
+	    ?>
 	  </tbody>
 	</table>
 	
@@ -49,3 +52,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
+<?php 
+CloseConnection($conn);
+?>
